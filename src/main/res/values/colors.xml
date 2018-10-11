@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--<color name="colorPrimary">#3F51B5</color>-->
+    <!--<color name="colorPrimaryDark">#303F9F</color>-->
+    <!--<color name="colorAccent">#FF4081</color>-->
+
+    <color name="colorPrimary">#00ae7d</color>
+    <!--<color name="colorPrimaryDark">#CC00ce7d</color>-->
+    <color name="colorPrimaryDark">#00ae7d</color>
+    <color name="colorAccent">#00ae7d</color>
+
+    <color name="white">#ffffffff</color>
+    <color name="black">#000000</color>
+    <color name="gray">#C6C6C6</color>
+
+    <color name="light_white">#EEEEEE</color>
+    <color name="light_black">#292929</color>
+
+
+    <!--通用分割线细-->
+    <color name="common_divider_narrow">#E3E3E3</color>
+    <!--通用背景色-->
+    <color name="common_bg">@color/white</color>
+    <!--通用一级标题的颜色-->
+    <color name="common_h1">#212121</color>
+    <!--通用触摸背景色-->
+    <color name="common_touch_bg">#E3E3E3</color>
+    <!--通用分割颜色-->
+    <color name="common_divider_wide">@color/gray</color>
+
+
+</resources>
