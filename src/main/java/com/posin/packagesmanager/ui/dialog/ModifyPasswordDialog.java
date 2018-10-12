@@ -1,15 +1,19 @@
 package com.posin.packagesmanager.ui.dialog;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.posin.packagesmanager.R;
 import com.posin.packagesmanager.base.BaseDialog;
+import com.posin.packagesmanager.ui.contract.ModifyPasswordContract;
+import com.posin.packagesmanager.ui.presenter.ModifyPasswordPresenter;
 import com.posin.packagesmanager.utils.DensityUtils;
 
 import butterknife.BindView;
@@ -24,8 +28,9 @@ import butterknife.OnClick;
 public class ModifyPasswordDialog extends BaseDialog {
 
     private Context mContext;
-
     private String mTitle;
+    private ModifyPasswordContract.IModifyPasswordPresenter mModifyPasswordPresenter;
+    private ModifyPasswordContract.IModifyPasswordView mModifyPasswordView;
 
 
     @BindView(R.id.tv_dialog_title)
@@ -36,10 +41,12 @@ public class ModifyPasswordDialog extends BaseDialog {
     EditText etModifyComparePassword;
 
 
-    public ModifyPasswordDialog(Context context,String title) {
+    public ModifyPasswordDialog(Context context, String title,
+                                ModifyPasswordContract.IModifyPasswordView modifyPasswordView) {
         super(context);
         this.mContext = context;
-        this.mTitle=title;
+        this.mTitle = title;
+        this.mModifyPasswordView = modifyPasswordView;
     }
 
     @Override
@@ -72,6 +79,7 @@ public class ModifyPasswordDialog extends BaseDialog {
     @Override
     public void initData() {
         tvDialogTitle.setText(mTitle);
+        mModifyPasswordPresenter = new ModifyPasswordPresenter(mContext, mModifyPasswordView);
     }
 
     @OnClick({R.id.btn_compare_ok, R.id.btn_compare_cancel})
@@ -79,8 +87,33 @@ public class ModifyPasswordDialog extends BaseDialog {
         switch (v.getId()) {
             case R.id.btn_compare_ok:
 
+                String modifyPassword = etModifyPassword.getText().toString().trim();
+                String comparePassword = etModifyComparePassword.getText().toString().trim();
+
+                if (TextUtils.isEmpty(modifyPassword) || TextUtils.isEmpty(comparePassword)) {
+//                    Toast.makeText(mContext, "新密码及确认新密码不能为空，请检查重新输入.",
+//                            Toast.LENGTH_SHORT).show();
+                    mModifyPasswordView.modifyPasswordFailure("新密码及确认新密码不能为空，请检查重新输入.");
+                    return;
+                }
+
+                if (!modifyPassword.equals(comparePassword)) {
+//                    Toast.makeText(mContext, "新密码与确认新密码不一致，请重新输入",
+//                            Toast.LENGTH_SHORT).show();
+                    mModifyPasswordView.modifyPasswordFailure("新密码与确认新密码不一致，请重新输入");
+                    return;
+                }
+
+                if (modifyPassword.length() < 6 || comparePassword.length() < 6 ||
+                        modifyPassword.length() > 16 || comparePassword.length() > 16) {
+                    mModifyPasswordView.modifyPasswordFailure("新密码长度必须为6~16位，请检查重新输入");
+                    return;
+                }
+
+                mModifyPasswordPresenter.modifyPassword(comparePassword);
                 break;
             case R.id.btn_compare_cancel:
+                mModifyPasswordPresenter.cancelModifyPassword();
                 this.dismiss();
                 break;
             default:

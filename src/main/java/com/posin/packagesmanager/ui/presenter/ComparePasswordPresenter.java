@@ -1,8 +1,12 @@
 package com.posin.packagesmanager.ui.presenter;
 
+import android.content.Context;
+import android.text.TextUtils;
 import android.util.Log;
 
+import com.posin.packagesmanager.base.SpConfig;
 import com.posin.packagesmanager.ui.contract.ComparePasswordContract;
+import com.posin.packagesmanager.utils.SPUtil;
 
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
@@ -23,9 +27,12 @@ public class ComparePasswordPresenter implements ComparePasswordContract.ICompar
 
     private static final String TAG = "PasswordPresenter";
     private ComparePasswordContract.IComparePasswordView mComparePasswordView;
+    private Context mContext;
 
-    public ComparePasswordPresenter(ComparePasswordContract.IComparePasswordView mComparePasswordView) {
+    public ComparePasswordPresenter(ComparePasswordContract.IComparePasswordView
+                                            mComparePasswordView, Context context) {
         this.mComparePasswordView = mComparePasswordView;
+        this.mContext = context;
     }
 
     @Override
@@ -34,9 +41,15 @@ public class ComparePasswordPresenter implements ComparePasswordContract.ICompar
         Observable.create(new ObservableOnSubscribe<Boolean>() {
             @Override
             public void subscribe(@NonNull ObservableEmitter<Boolean> observable) throws Exception {
-                if (!password.equals("1234")) {
+
+                String savePassword = (String) SPUtil.get(mContext, SpConfig.MANAGER_PASSWORD, "1234");
+                Log.e(TAG, "savePassword: " + savePassword);
+                if (TextUtils.isEmpty(savePassword)) {
+                    savePassword = "1234";
+                }
+                if (!password.equals(savePassword)) {
                     observable.onError(new Exception("密码错误,请重新输入密码!"));
-                }else{
+                } else {
                     observable.onNext(true);
                 }
             }

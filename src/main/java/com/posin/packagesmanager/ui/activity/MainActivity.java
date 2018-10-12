@@ -9,6 +9,7 @@ import android.widget.Toast;
 import com.posin.packagesmanager.R;
 import com.posin.packagesmanager.base.BaseActivity;
 import com.posin.packagesmanager.ui.contract.ComparePasswordContract;
+import com.posin.packagesmanager.ui.contract.ModifyPasswordContract;
 import com.posin.packagesmanager.ui.dialog.ComparePasswordDialog;
 import com.posin.packagesmanager.ui.dialog.ModifyPasswordDialog;
 import com.posin.packagesmanager.ui.presenter.ComparePasswordPresenter;
@@ -16,11 +17,10 @@ import com.posin.packagesmanager.view.SwitchButton;
 
 import java.lang.reflect.Method;
 
-public class MainActivity extends BaseActivity implements ComparePasswordContract.IComparePasswordView {
+public class MainActivity extends BaseActivity implements ComparePasswordContract.IComparePasswordView, ModifyPasswordContract.IModifyPasswordView {
 
     private ComparePasswordDialog comparePasswordDialog;
-
-    private ComparePasswordPresenter mComparePasswordPresenter;
+    private ModifyPasswordDialog modifyPasswordDialog;
 
 
     @Override
@@ -60,11 +60,8 @@ public class MainActivity extends BaseActivity implements ComparePasswordContrac
                 Toast.makeText(mContext, "正在开发中 ....", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.modify_password:
-
-                ModifyPasswordDialog modifyPasswordDialog = new ModifyPasswordDialog(this, "修改登录密码");
+                modifyPasswordDialog = new ModifyPasswordDialog(this, "修改登录密码", this);
                 modifyPasswordDialog.show();
-
-
                 break;
             case R.id.system_exit:
                 MainActivity.this.finish();
@@ -105,7 +102,6 @@ public class MainActivity extends BaseActivity implements ComparePasswordContrac
 
     @Override
     public void initData() {
-        mComparePasswordPresenter = new ComparePasswordPresenter(this);
         comparePasswordDialog = new ComparePasswordDialog(this, "登录App管理器", this);
         comparePasswordDialog.show();
 
@@ -140,5 +136,24 @@ public class MainActivity extends BaseActivity implements ComparePasswordContrac
     @Override
     public void dismissProgress() {
         dismissLoadingDialog();
+    }
+
+    @Override
+    public void modifyPasswordSuccess() {
+        if (modifyPasswordDialog != null) {
+            if (modifyPasswordDialog.isShowing()) {
+                modifyPasswordDialog.dismiss();
+            }
+        }
+    }
+
+    @Override
+    public void modifyPasswordFailure(String errorMessage) {
+        Toast.makeText(mContext, errorMessage, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void cancelModifyPassword() {
+        Toast.makeText(mContext, "你已取消修改密码 ！", Toast.LENGTH_SHORT).show();
     }
 }

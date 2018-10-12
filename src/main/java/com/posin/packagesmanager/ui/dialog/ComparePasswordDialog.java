@@ -8,11 +8,9 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.posin.packagesmanager.R;
 import com.posin.packagesmanager.base.BaseDialog;
-import com.posin.packagesmanager.ui.activity.MainActivity;
 import com.posin.packagesmanager.ui.contract.ComparePasswordContract;
 import com.posin.packagesmanager.ui.presenter.ComparePasswordPresenter;
 import com.posin.packagesmanager.utils.DensityUtils;
@@ -79,7 +77,7 @@ public class ComparePasswordDialog extends BaseDialog {
     public void initData() {
         tvDialogTitle.setText(mTitle);
 
-        mComparePasswordPresenter = new ComparePasswordPresenter(mComparePasswordView);
+        mComparePasswordPresenter = new ComparePasswordPresenter(mComparePasswordView, mContext);
     }
 
     @OnClick({R.id.btn_compare_ok, R.id.btn_compare_cancel})
@@ -90,7 +88,7 @@ public class ComparePasswordDialog extends BaseDialog {
                 String password = etPassword.getText().toString().trim();
 
                 if (TextUtils.isEmpty(password)) {
-                    mComparePasswordView.compareFailure("密码不能为空！");
+                    mComparePasswordView.compareFailure("密码不能为空 ！");
                     return;
                 }
                 mComparePasswordPresenter.comparePassword(password);
