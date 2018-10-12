@@ -13,5 +13,11 @@
         android:layout_width="match_parent"
         android:layout_height="40dp" />
 
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_list_app"
+        android:layout_width="match_parent"
+        android:layout_below="@+id/common_toolbar"
+        android:layout_height="match_parent"/>
+
 
 </RelativeLayout>

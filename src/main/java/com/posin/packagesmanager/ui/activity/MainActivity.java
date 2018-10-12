@@ -1,6 +1,11 @@
 package com.posin.packagesmanager.ui.activity;
 
+import android.content.ComponentName;
 import android.support.v7.view.menu.MenuBuilder;
+import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -8,20 +13,31 @@ import android.widget.Toast;
 
 import com.posin.packagesmanager.R;
 import com.posin.packagesmanager.base.BaseActivity;
+import com.posin.packagesmanager.bean.AppInfo;
+import com.posin.packagesmanager.ui.adapter.AllAppAdapter;
 import com.posin.packagesmanager.ui.contract.ComparePasswordContract;
 import com.posin.packagesmanager.ui.contract.ModifyPasswordContract;
 import com.posin.packagesmanager.ui.dialog.ComparePasswordDialog;
 import com.posin.packagesmanager.ui.dialog.ModifyPasswordDialog;
 import com.posin.packagesmanager.ui.presenter.ComparePasswordPresenter;
+import com.posin.packagesmanager.utils.AppManager;
+import com.posin.packagesmanager.utils.AppUtils;
 import com.posin.packagesmanager.view.SwitchButton;
 
 import java.lang.reflect.Method;
+import java.util.List;
+
+import butterknife.BindView;
 
 public class MainActivity extends BaseActivity implements ComparePasswordContract.IComparePasswordView, ModifyPasswordContract.IModifyPasswordView {
+
+    private static final String TAG = "MainActivity";
 
     private ComparePasswordDialog comparePasswordDialog;
     private ModifyPasswordDialog modifyPasswordDialog;
 
+    @BindView(R.id.rv_list_app)
+    RecyclerView rvListApp;
 
     @Override
     public int getLayoutId() {
@@ -101,9 +117,38 @@ public class MainActivity extends BaseActivity implements ComparePasswordContrac
     }
 
     @Override
+    public void initUI() {
+
+        rvListApp.setLayoutManager(new LinearLayoutManager(this));
+        rvListApp.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
+
+    }
+
+    @Override
     public void initData() {
-        comparePasswordDialog = new ComparePasswordDialog(this, "登录App管理器", this);
-        comparePasswordDialog.show();
+
+
+//        comparePasswordDialog = new ComparePasswordDialog(this, "登录App管理器", this);
+//        comparePasswordDialog.show();
+
+//        int mState = this.getPackageManager().getComponentEnabledSetting(
+//                new ComponentName("com.android.settings",
+//                        "com.android.settings.Settings"));
+//
+//        Toast.makeText(mContext, "state： " + mState, Toast.LENGTH_SHORT).show();
+//        new AppUtils().loadAllIconApp(this);
+
+
+        List<AppInfo> allApp = new AppUtils().getAllApp(this);
+
+        AllAppAdapter allAppAdapter = new AllAppAdapter(this, allApp);
+        rvListApp.setAdapter(allAppAdapter);
+
+        Log.e(TAG, "app size: " + allApp.size());
+        for (AppInfo appinfo : allApp) {
+            Log.e(TAG, "app name: " + appinfo.getAppName() + " state: " + appinfo.getmState() +
+                    " ismHideOnUserMode" + appinfo.ismHideOnUserMode());
+        }
 
     }
 

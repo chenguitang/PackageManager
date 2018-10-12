@@ -37,6 +37,7 @@ public abstract class BaseActivity extends AppCompatActivity {
             setSupportActionBar(mCommonToolbar);
         }
 
+        initUI();
         initData();
     }
 
@@ -72,6 +73,8 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
 
     public abstract int getLayoutId();
+
+    public abstract void initUI();
 
     public abstract void initData();
 
