@@ -10,8 +10,9 @@ public class PackagesConfig {
 
 
     public static final String[] BLACK_LIST = {
-            "com.minipos.appmanager.MainActivity",
-            "com.posin.appmanager.MainActivity",
+            //应用自身
+            "com.posin.packagesmanager.ui.activity.MainActivity",
+            "com.minipos.packagesmanager.ui.activity.MainActivity",
             // system disabled component
             "com.android.inputmethod.latin.setup.SetupActivity",
             "com.android.stk.StkLauncherActivity",

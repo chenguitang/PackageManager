@@ -4,10 +4,10 @@
     android:layout_height="wrap_content"
     android:gravity="center"
     android:orientation="horizontal"
-    android:paddingLeft="20dp"
+    android:paddingLeft="30dp"
     android:paddingTop="10dp"
     android:paddingBottom="10dp"
-    android:paddingRight="20dp">
+    android:paddingRight="30dp">
 
     <ProgressBar
         android:layout_width="wrap_content"

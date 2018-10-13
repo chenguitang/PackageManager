@@ -58,12 +58,11 @@
                 android:textAppearance="?android:attr/textAppearanceSmall" />
         </LinearLayout>
 
-        <CheckBox
-            android:id="@+id/checkVisible"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="隐藏"
-            android:visibility="gone" />
+        <!--<CheckBox-->
+            <!--android:id="@+id/sb_switch_app"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="隐藏"/>-->
 
         <com.posin.packagesmanager.view.SwitchButton
             android:id="@+id/sb_switch_app"

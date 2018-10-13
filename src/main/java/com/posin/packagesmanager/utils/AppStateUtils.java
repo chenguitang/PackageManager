@@ -3,6 +3,7 @@ package com.posin.packagesmanager.utils;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.util.Log;
 
 import com.posin.packagesmanager.utils.shell.SuShell;
 
@@ -14,12 +15,16 @@ import com.posin.packagesmanager.utils.shell.SuShell;
  */
 public class AppStateUtils {
 
+    private static final String TAG = "AppStateUtils";
 
     public static void setPackageEnable(Context context, String packageName, String className,
                                         boolean enabled) throws Exception {
 
         final String packageSourceDir = context.getApplicationInfo().sourceDir;
         int packageState = getPackageState(context, packageName, className);
+
+        Log.e(TAG, "isVisible(packageState): " + isVisible(packageState));
+        Log.e(TAG, "enabled: " + enabled);
 
         if (isVisible(packageState) != enabled) {
             SuShell.exec("export CLASSPATH=" + packageSourceDir, null, 0);
@@ -72,7 +77,7 @@ public class AppStateUtils {
      * @param state
      * @return
      */
-    private static boolean isVisible(int state) {
+    public static boolean isVisible(int state) {
         return state == PackageManager.COMPONENT_ENABLED_STATE_DEFAULT
                 || state == PackageManager.COMPONENT_ENABLED_STATE_ENABLED;
     }

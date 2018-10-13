@@ -199,6 +199,6 @@ public class MainActivity extends BaseActivity implements ComparePasswordContrac
 
     @Override
     public void cancelModifyPassword() {
-        Toast.makeText(mContext, "你已取消修改密码 ！", Toast.LENGTH_SHORT).show();
+        Toast.makeText(mContext, "您已取消修改密码 ！", Toast.LENGTH_SHORT).show();
     }
 }
