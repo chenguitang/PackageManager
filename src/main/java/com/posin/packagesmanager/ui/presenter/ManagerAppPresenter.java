@@ -60,7 +60,7 @@ public class ManagerAppPresenter implements ManagerAppContract.IManagerAppPresen
                     mState = AppStateUtils.getPackageState(context, packageName, className);
                     isVisAble = AppStateUtils.isVisible(mState);
                 }
-                Observable.timer(6, TimeUnit.SECONDS)
+                Observable.timer(isUserModel ? 6 : 2, TimeUnit.SECONDS)
                         .doOnNext(new Consumer<Long>() {
                             @Override
                             public void accept(Long aLong) throws Exception {
@@ -72,7 +72,7 @@ public class ManagerAppPresenter implements ManagerAppContract.IManagerAppPresen
                                         int packageState = AppStateUtils.getPackageState(context,
                                                 packageName, className);
                                         boolean visible = AppStateUtils.isVisible(packageState);
-                                        Log.e(TAG, "visible: "+visible);
+                                        Log.e(TAG, "visible: " + visible);
                                         isVisAble = visible;
                                         mState = AppStateUtils.getPackageState(context, packageName, className);
 
@@ -110,8 +110,7 @@ public class ManagerAppPresenter implements ManagerAppContract.IManagerAppPresen
                                         });
 
                             }
-                        })
-                        .subscribe();
+                        }).subscribe();
             }
         }).subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.Log;
 
 import com.google.gson.Gson;
+import com.posin.packagesmanager.base.PackagesConfig;
 import com.posin.packagesmanager.bean.AppInfo;
 import com.posin.packagesmanager.bean.PackagesMessage;
 import com.posin.packagesmanager.ui.contract.HomeContract;
@@ -13,6 +14,7 @@ import com.posin.packagesmanager.utils.AppUtils;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
@@ -21,6 +23,7 @@ import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 
 
@@ -89,7 +92,8 @@ public class HomePresenter implements HomeContract.IHomePresenter {
         homeView.showProgress();
         Observable.create(new ObservableOnSubscribe<Boolean>() {
             @Override
-            public void subscribe(@NonNull ObservableEmitter<Boolean> observable) throws Exception {
+            public void subscribe(@NonNull final ObservableEmitter<Boolean> switchObservable) throws Exception {
+
                 Gson gson = new Gson();
                 List<PackagesMessage.DisabledBean> listDisableApp = new ArrayList<>();
                 String model = isUserModel ? "user" : "admin";
@@ -111,11 +115,72 @@ public class HomePresenter implements HomeContract.IHomePresenter {
                 fos.flush();
                 fos.close();
 
-                Log.e(TAG, "disablePackagesJson: " + disablePackagesJson);
-                Thread.sleep(5000);
-                observable.onNext(true);
+                Log.d(TAG, "disablePackagesJson: " + disablePackagesJson);
+
+                Observable.timer(6, TimeUnit.SECONDS)
+                        .doOnNext(new Consumer<Long>() {
+                            @Override
+                            public void accept(Long aLong) throws Exception {
+                                Observable.create(new ObservableOnSubscribe<Boolean>() {
+                                    @Override
+                                    public void subscribe(@NonNull ObservableEmitter<Boolean>
+                                                                  checkObservable) throws Exception {
+                                        for (AppInfo appInfo : listApps) {
+                                            if (appInfo.ismHideOnUserMode()) {
+
+                                                int packageState = AppStateUtils.getPackageState(context,
+                                                        appInfo.getPackageName(), appInfo.getClassName());
+
+                                                boolean visible = AppStateUtils.isVisible(packageState);
+
+                                                boolean userModel = PackagesConfig.getUserModel();
+
+//                                                Log.e(TAG, "ClassName: " + appInfo.getClassName() +
+//                                                        "  visible: " + visible + "   userModel: " + userModel);
+
+                                                if (!userModel && visible) {
+                                                    Log.e(TAG, "修改失败");
+                                                    checkObservable.onError(
+                                                            new Exception("切换使用模式，修改部分应用失败."));
+                                                    return;
+                                                } else if (userModel && !visible) {
+                                                    Log.e(TAG, "修改失败");
+                                                    checkObservable.onError(
+                                                            new Exception("切换使用模式，修改部分应用失败."));
+                                                    return;
+                                                }
+                                            }
+                                        }
+                                        checkObservable.onNext(true);
+                                    }
+                                }).subscribeOn(Schedulers.newThread())
+                                        .observeOn(AndroidSchedulers.mainThread())
+                                        .subscribe(new Observer<Boolean>() {
+                                            @Override
+                                            public void onSubscribe(@NonNull Disposable d) {
+
+                                            }
+
+                                            @Override
+                                            public void onNext(@NonNull Boolean aBoolean) {
+                                                this.onComplete();
+                                            }
+
+                                            @Override
+                                            public void onError(@NonNull Throwable e) {
+                                                e.printStackTrace();
+                                                switchObservable.onError(e);
+                                            }
+
+                                            @Override
+                                            public void onComplete() {
+                                                switchObservable.onNext(true);
+                                            }
+                                        });
+                            }
+                        }).subscribe();
             }
-        }).subscribeOn(Schedulers.io())
+        }).subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<Boolean>() {
                     @Override
@@ -130,7 +195,6 @@ public class HomePresenter implements HomeContract.IHomePresenter {
 
                     @Override
                     public void onError(@NonNull Throwable e) {
-                        e.printStackTrace();
                         homeView.dismissProgress();
                         homeView.switchModelFailure(e.toString());
                     }
