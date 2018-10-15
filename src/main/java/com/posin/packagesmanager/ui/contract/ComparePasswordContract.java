@@ -10,7 +10,7 @@ import com.posin.packagesmanager.base.BaseContract;
  */
 public interface ComparePasswordContract {
 
-    interface IComparePasswordView extends BaseContract.BaseView {
+    interface IComparePasswordView extends BaseContract.IBaseView {
         /**
          * 密码校验成功
          */
@@ -27,7 +27,7 @@ public interface ComparePasswordContract {
         void cancelCompare();
     }
 
-    interface IComparePasswordPresenter extends BaseContract.BasePresenter {
+    interface IComparePasswordPresenter extends BaseContract.IBasePresenter {
         /**
          * 检验密码
          *

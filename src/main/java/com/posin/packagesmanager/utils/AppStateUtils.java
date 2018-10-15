@@ -38,10 +38,10 @@ public class AppStateUtils {
     /**
      * 获取应用状态
      *
-     * @param context
-     * @param packageName
-     * @param className
-     * @return
+     * @param context context
+     * @param packageName 应用包名
+     * @param className 应用类名
+     * @return state
      */
     public static int getPackageState(Context context, String packageName, String className) {
         return context.getPackageManager().getComponentEnabledSetting(
@@ -51,8 +51,8 @@ public class AppStateUtils {
     /**
      * 获取应用状态
      *
-     * @param state
-     * @return
+     * @param state int应用状态
+     * @return stateStr
      */
     public static String getStateString(int state) {
         switch (state) {
@@ -74,8 +74,8 @@ public class AppStateUtils {
     /**
      * 应用图标是否可见
      *
-     * @param state
-     * @return
+     * @param state state
+     * @return boolean
      */
     public static boolean isVisible(int state) {
         return state == PackageManager.COMPONENT_ENABLED_STATE_DEFAULT

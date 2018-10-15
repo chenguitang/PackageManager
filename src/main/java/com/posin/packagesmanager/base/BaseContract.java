@@ -8,7 +8,7 @@ package com.posin.packagesmanager.base;
  */
 public interface BaseContract {
 
-    interface BaseView {
+    interface IBaseView {
 
         void showProgress();
 
@@ -16,7 +16,7 @@ public interface BaseContract {
 
     }
 
-    interface BasePresenter {
+    interface IBasePresenter {
 
     }
 }

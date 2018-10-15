@@ -48,7 +48,7 @@ public abstract class BaseActivity extends AppCompatActivity {
      */
     public void showLoadingDialog(String title) {
         if (mLoadingDialog == null) {
-            mLoadingDialog = new LoadingDialog(this, "数据加载中");
+            mLoadingDialog = new LoadingDialog(this, title);
             mLoadingDialog.show();
         } else {
             if (!mLoadingDialog.isShowing()) {

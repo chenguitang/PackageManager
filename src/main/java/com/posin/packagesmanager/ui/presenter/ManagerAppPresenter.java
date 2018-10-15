@@ -3,9 +3,12 @@ package com.posin.packagesmanager.ui.presenter;
 import android.content.Context;
 import android.util.Log;
 
+import com.posin.packagesmanager.base.PackagesConfig;
+import com.posin.packagesmanager.bean.AppInfo;
 import com.posin.packagesmanager.ui.contract.ManagerAppContract;
 import com.posin.packagesmanager.utils.AppStateUtils;
 
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observable;
@@ -31,10 +34,12 @@ public class ManagerAppPresenter implements ManagerAppContract.IManagerAppPresen
     private Context context;
     private int mState;
     private boolean isVisAble;
+    private boolean isUserModel;
 
     private ManagerAppContract.IManagerAppView mManagerAppView;
 
-    public ManagerAppPresenter(Context context, ManagerAppContract.IManagerAppView mManagerAppView) {
+    public ManagerAppPresenter(Context context, ManagerAppContract.IManagerAppView
+            mManagerAppView) {
         this.context = context;
         this.mManagerAppView = mManagerAppView;
     }
@@ -42,17 +47,19 @@ public class ManagerAppPresenter implements ManagerAppContract.IManagerAppPresen
     @Override
     public void managerApp(final Context context, final String className,
                            final String packageName, final boolean isAble) {
-        mManagerAppView.showProgress();
 
+        mManagerAppView.showProgress();
+        isUserModel = PackagesConfig.getUserModel();
         Observable.create(new ObservableOnSubscribe<Boolean>() {
             @Override
             public void subscribe(@NonNull final ObservableEmitter<Boolean>
                                           managerObservable) throws Exception {
 
-                AppStateUtils.setPackageEnable(context, packageName, className, isAble);
-                mState = AppStateUtils.getPackageState(context, packageName, className);
-                isVisAble = AppStateUtils.isVisible(mState);
-
+                if (isUserModel) {
+                    AppStateUtils.setPackageEnable(context, packageName, className, isAble);
+                    mState = AppStateUtils.getPackageState(context, packageName, className);
+                    isVisAble = AppStateUtils.isVisible(mState);
+                }
                 Observable.timer(6, TimeUnit.SECONDS)
                         .doOnNext(new Consumer<Long>() {
                             @Override
@@ -65,14 +72,17 @@ public class ManagerAppPresenter implements ManagerAppContract.IManagerAppPresen
                                         int packageState = AppStateUtils.getPackageState(context,
                                                 packageName, className);
                                         boolean visible = AppStateUtils.isVisible(packageState);
+                                        Log.e(TAG, "visible: "+visible);
                                         isVisAble = visible;
                                         mState = AppStateUtils.getPackageState(context, packageName, className);
 
-                                        if (visible != isAble) {
+                                        if (visible != isAble && isUserModel) {
                                             Log.e(TAG, "修改失败...");
                                             checkObservable.onError(new Exception("修改应用状态失败."));
                                         } else {
                                             checkObservable.onNext(true);
+
+
                                         }
                                     }
                                 }).subscribeOn(Schedulers.newThread())

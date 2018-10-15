@@ -3,6 +3,9 @@ package com.posin.packagesmanager.ui.contract;
 import android.content.Context;
 
 import com.posin.packagesmanager.base.BaseContract;
+import com.posin.packagesmanager.bean.AppInfo;
+
+import java.util.List;
 
 /**
  * FileName: ManagerAppContract
@@ -12,7 +15,7 @@ import com.posin.packagesmanager.base.BaseContract;
  */
 public interface ManagerAppContract {
 
-    interface IManagerAppView extends BaseContract.BaseView {
+    interface IManagerAppView extends BaseContract.IBaseView {
 
         /**
          * 操作成功
@@ -27,7 +30,7 @@ public interface ManagerAppContract {
         void managerFailure(boolean isVisible, int state, String errorMessage);
     }
 
-    interface IManagerAppPresenter extends BaseContract.BasePresenter {
+    interface IManagerAppPresenter extends BaseContract.IBasePresenter {
 
         /**
          * 操作应用图标是否显示

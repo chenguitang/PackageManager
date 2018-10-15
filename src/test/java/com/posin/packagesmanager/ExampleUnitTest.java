@@ -1,6 +1,11 @@
 package com.posin.packagesmanager;
 
+import com.google.gson.Gson;
+import com.posin.packagesmanager.bean.PackagesMessage;
+
 import org.junit.Test;
+
+import java.util.ArrayList;
 
 import static org.junit.Assert.*;
 
@@ -13,5 +18,18 @@ public class ExampleUnitTest {
     @Test
     public void addition_isCorrect() throws Exception {
         assertEquals(4, 2 + 2);
+        gsonTest();
+    }
+
+    public void gsonTest() {
+        Gson gson = new Gson();
+        ArrayList<PackagesMessage.DisabledBean> listDisableBeans = new ArrayList<>();
+        PackagesMessage.DisabledBean disabledBean = new
+                PackagesMessage.DisabledBean("com.posin.install", "com.posin.install.mainactivity");
+        listDisableBeans.add(disabledBean);
+        PackagesMessage packagesMessage = new PackagesMessage("user", listDisableBeans);
+
+        String mJsonMessage = gson.toJson(packagesMessage);
+        System.out.println("mJsonMessage: " + mJsonMessage);
     }
 }

@@ -10,7 +10,7 @@ import com.posin.packagesmanager.base.BaseContract;
  */
 public interface ModifyPasswordContract {
 
-    interface IModifyPasswordView extends BaseContract.BaseView {
+    interface IModifyPasswordView extends BaseContract.IBaseView {
         /**
          * 密码修改成功
          */
@@ -27,7 +27,7 @@ public interface ModifyPasswordContract {
         void cancelModifyPassword();
     }
 
-    interface IModifyPasswordPresenter extends BaseContract.BasePresenter {
+    interface IModifyPasswordPresenter extends BaseContract.IBasePresenter {
 
         /**
          * 修改密码

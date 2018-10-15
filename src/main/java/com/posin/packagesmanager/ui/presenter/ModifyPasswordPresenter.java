@@ -59,6 +59,7 @@ public class ModifyPasswordPresenter implements ModifyPasswordContract.IModifyPa
 
                     @Override
                     public void onError(@NonNull Throwable e) {
+                        e.printStackTrace();
                         mModifyPasswordView.modifyPasswordFailure(e.getMessage());
                     }
 

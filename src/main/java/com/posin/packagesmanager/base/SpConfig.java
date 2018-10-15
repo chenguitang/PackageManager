@@ -13,4 +13,9 @@ public class SpConfig {
      */
     public static final String MANAGER_PASSWORD = "manager_password";
 
+    /**
+     * 当前应用使用模式
+     */
+    public static final String CURRENT_USE_MODEL = "user";
+
 }

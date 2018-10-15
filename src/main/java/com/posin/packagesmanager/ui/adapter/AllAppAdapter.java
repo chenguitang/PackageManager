@@ -1,21 +1,21 @@
 package com.posin.packagesmanager.ui.adapter;
 
 import android.content.Context;
-import android.media.tv.TvContentRating;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.posin.packagesmanager.R;
+import com.posin.packagesmanager.base.PackagesConfig;
 import com.posin.packagesmanager.bean.AppInfo;
+import com.posin.packagesmanager.ui.contract.SaveAppConfigContract;
 import com.posin.packagesmanager.ui.contract.ManagerAppContract;
+import com.posin.packagesmanager.ui.presenter.SaveAppConfigPresenter;
 import com.posin.packagesmanager.ui.presenter.ManagerAppPresenter;
 import com.posin.packagesmanager.view.LoadingDialog;
 import com.posin.packagesmanager.view.SwitchButton;
@@ -31,12 +31,13 @@ import butterknife.ButterKnife;
  * Time: 2018/10/12 16:13
  * Desc: TODO
  */
-public class AllAppAdapter extends RecyclerView.Adapter<AllAppAdapter.AppItemMessageHolder> implements ManagerAppContract.IManagerAppView {
+public class AllAppAdapter extends RecyclerView.Adapter<AllAppAdapter.AppItemMessageHolder> implements ManagerAppContract.IManagerAppView, SaveAppConfigContract.ISaveConfigView {
 
     private static final String TAG = "AllAppAdapter";
     private Context context;
     private List<AppInfo> listAppInfo;
     private ManagerAppPresenter managerAppPresenter;
+    private SaveAppConfigPresenter saveAppConfigPresenter;
     private LoadingDialog mLoadingDialog;
     private int operationPosition;
     private AppItemMessageHolder mHandler;
@@ -45,6 +46,7 @@ public class AllAppAdapter extends RecyclerView.Adapter<AllAppAdapter.AppItemMes
         this.context = context;
         this.listAppInfo = listAppInfo;
         managerAppPresenter = new ManagerAppPresenter(context, this);
+        saveAppConfigPresenter = new SaveAppConfigPresenter(context, this);
         mLoadingDialog = new LoadingDialog(context, "正在拼命加载中");
     }
 
@@ -93,13 +95,21 @@ public class AllAppAdapter extends RecyclerView.Adapter<AllAppAdapter.AppItemMes
 
     @Override
     public void managerSuccess(boolean isVisible, int state) {
-        Toast.makeText(context, "修改成功.", Toast.LENGTH_SHORT).show();
+//        Toast.makeText(context, "修改成功.", Toast.LENGTH_SHORT).show();
 //        Log.e(TAG, "isVisible: " + isVisible + "  operationPosition:" + operationPosition);
+//        Log.e(TAG, "修改成功11： " + listAppInfo.get(operationPosition).toString());
         if (listAppInfo.size() > operationPosition) {
-            listAppInfo.get(operationPosition).setmHideOnUserMode(!isVisible);
+            if (PackagesConfig.getUserModel()) {
+                //用户模式下，打开隐藏app的开关，isVisible返回的是false,图标已被隐藏
+                //管理员模式下，打开隐藏app的开关，isVisible返回的是true,图标未被隐藏，只有切换到用户模式才会隐藏
+                listAppInfo.get(operationPosition).setmHideOnUserMode(!isVisible);
+            }
             listAppInfo.get(operationPosition).setmState(state);
-
         }
+//        Log.e(TAG, "修改成功22： " + listAppInfo.get(operationPosition).toString());
+
+        saveAppConfigPresenter.saveConfig(context,
+                PackagesConfig.Disable_APP_CONFIG_FILE, PackagesConfig.getUserModel(), listAppInfo);
     }
 
     @Override
@@ -115,6 +125,7 @@ public class AllAppAdapter extends RecyclerView.Adapter<AllAppAdapter.AppItemMes
         }
     }
 
+
     @Override
     public void showProgress() {
         mLoadingDialog.show();
@@ -125,6 +136,16 @@ public class AllAppAdapter extends RecyclerView.Adapter<AllAppAdapter.AppItemMes
         if (mLoadingDialog != null)
             if (mLoadingDialog.isShowing())
                 mLoadingDialog.dismiss();
+    }
+
+    @Override
+    public void saveSuccess() {
+        Toast.makeText(context, "修改成功，数据保存成功.", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void saveFailure(String errorMessage) {
+        Toast.makeText(context, "数据保存失败.", Toast.LENGTH_SHORT).show();
     }
 
     public class AppItemMessageHolder extends RecyclerView.ViewHolder {
@@ -144,5 +165,9 @@ public class AllAppAdapter extends RecyclerView.Adapter<AllAppAdapter.AppItemMes
             super(itemView);
             ButterKnife.bind(this, itemView);
         }
+    }
+
+    public List<AppInfo> getListData() {
+        return listAppInfo;
     }
 }

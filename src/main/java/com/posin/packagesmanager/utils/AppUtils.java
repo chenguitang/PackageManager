@@ -35,7 +35,7 @@ public class AppUtils {
      * @param context
      * @return
      */
-    public List<PackageInfo> getAllPackages(Context context) {
+    public List<PackageInfo> getAllPackages(Context context) throws Exception {
         PackageManager pm = context.getPackageManager();
         return pm.getInstalledPackages(0);
     }
@@ -48,7 +48,7 @@ public class AppUtils {
      * @return
      */
 
-    public List<AppInfo> getAllApp(Context context) {
+    public List<AppInfo> getAllApp(Context context) throws Exception{
         List<AppInfo> listAppInfo = new ArrayList<>();
         PackageManager pm = context.getPackageManager();
         List<PackageInfo> listPackages = pm.getInstalledPackages(0);
@@ -131,7 +131,7 @@ public class AppUtils {
      * @param context
      * @return
      */
-    public List<AppInfo> getAllShowApp(Context context, List<PackageInfo> listPackages) {
+    public List<AppInfo> getAllShowApp(Context context, List<PackageInfo> listPackages) throws Exception{
         List<AppInfo> listAppInfo = new ArrayList<>();
         PackageManager pm = context.getPackageManager();
 //        List<PackageInfo> listPackages = pm.getInstalledPackages(0);
@@ -177,7 +177,7 @@ public class AppUtils {
      * @param context
      * @return
      */
-    public List<AppInfo> getAllDisableApp(Context context, List<PackageInfo> allPackageInfo) {
+    public List<AppInfo> getAllDisableApp(Context context, List<PackageInfo> allPackageInfo) throws Exception {
 
         List<AppInfo> listAllDisableApps = new ArrayList<>();
         PackageManager pm = context.getPackageManager();
@@ -220,7 +220,7 @@ public class AppUtils {
     }
 
 
-    private PackageInfo getPackageInfo(List<PackageInfo> lst, String pkg) {
+    private PackageInfo getPackageInfo(List<PackageInfo> lst, String pkg) throws Exception {
         for (PackageInfo pi : lst) {
             if (pi.packageName.equals(pkg))
                 return pi;
@@ -245,7 +245,7 @@ public class AppUtils {
      *
      * @return
      */
-    private List<ComponentName> getPackageDisabled() {
+    private List<ComponentName> getPackageDisabled() throws Exception{
         try {
             StringBuilder sb = new StringBuilder();
             SuShell.exec("cat /data/system/users/0/package-restrictions.xml", sb, 10000);

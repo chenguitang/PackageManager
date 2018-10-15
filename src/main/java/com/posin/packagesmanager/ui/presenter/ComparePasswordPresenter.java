@@ -43,7 +43,7 @@ public class ComparePasswordPresenter implements ComparePasswordContract.ICompar
             public void subscribe(@NonNull ObservableEmitter<Boolean> observable) throws Exception {
 
                 String savePassword = (String) SPUtil.get(mContext, SpConfig.MANAGER_PASSWORD, "1234");
-                Log.e(TAG, "savePassword: " + savePassword);
+//                Log.e(TAG, "savePassword: " + savePassword);
                 if (TextUtils.isEmpty(savePassword)) {
                     savePassword = "1234";
                 }
@@ -58,24 +58,21 @@ public class ComparePasswordPresenter implements ComparePasswordContract.ICompar
                 .subscribe(new Observer<Boolean>() {
                     @Override
                     public void onSubscribe(@NonNull Disposable d) {
-                        Log.e(TAG, "onSubscribe");
                     }
 
                     @Override
                     public void onNext(@NonNull Boolean aBoolean) {
-                        Log.e(TAG, "onNext");
                         this.onComplete();
                     }
 
                     @Override
                     public void onError(@NonNull Throwable throwable) {
-                        Log.e(TAG, "onError");
+                        throwable.printStackTrace();
                         mComparePasswordView.compareFailure(throwable.getMessage());
                     }
 
                     @Override
                     public void onComplete() {
-                        Log.e(TAG, "onComplete");
                         mComparePasswordView.compareSuccess();
                     }
                 });

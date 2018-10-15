@@ -20,4 +20,19 @@ public class PackagesConfig {
             "com.android.settings.CryptKeeper",
     };
 
+    /**
+     * 隐藏应用数据保存地址
+     */
+    public static final String Disable_APP_CONFIG_FILE = "/data/posin/disableApp.json";
+
+
+    public static boolean current_isUseModel = true;
+
+    public static void setUserModel(boolean isUserModel) {
+        current_isUseModel = isUserModel;
+    }
+
+    public static boolean getUserModel() {
+        return current_isUseModel;
+    }
 }
