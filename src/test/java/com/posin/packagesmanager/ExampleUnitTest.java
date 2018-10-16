@@ -18,7 +18,21 @@ public class ExampleUnitTest {
     @Test
     public void addition_isCorrect() throws Exception {
         assertEquals(4, 2 + 2);
-        gsonTest();
+//        gsonTest();
+        myTest();
+    }
+
+    private void myTest() {
+        for (int i = 0; i < 4; i++) {
+            for (int j = 5; j > 0; j--) {
+                if (i == j) {
+                    continue;
+                }
+                System.out.println("j=" + j);
+            }
+            System.out.println("i=" + i);
+            System.out.println("=================================");
+        }
     }
 
     public void gsonTest() {

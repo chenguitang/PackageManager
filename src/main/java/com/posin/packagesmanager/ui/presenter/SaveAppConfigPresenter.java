@@ -51,7 +51,7 @@ public class SaveAppConfigPresenter implements SaveAppConfigContract.ISaveConfig
                 List<PackagesMessage.DisabledBean> listDisableApp = new ArrayList<>();
                 String model = isUserModel ? "user" : "admin";
                 for (AppInfo appInfo : listAppInfo) {
-                    if (appInfo.ismHideOnUserMode()) {
+                    if (!appInfo.isShowOnUserMode()) {
                         PackagesMessage.DisabledBean disabledApp = new PackagesMessage.
                                 DisabledBean(appInfo.getPackageName(), appInfo.getClassName());
                         listDisableApp.add(disabledApp);

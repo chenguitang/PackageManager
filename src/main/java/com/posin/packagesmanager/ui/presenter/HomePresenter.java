@@ -99,7 +99,7 @@ public class HomePresenter implements HomeContract.IHomePresenter {
                 List<PackagesMessage.DisabledBean> listDisableApp = new ArrayList<>();
                 String model = isUserModel ? "user" : "admin";
                 for (AppInfo appInfo : listApps) {
-                    if (appInfo.ismHideOnUserMode()) {
+                    if (!appInfo.isShowOnUserMode()) {
                         PackagesMessage.DisabledBean disabledApp = new PackagesMessage.
                                 DisabledBean(appInfo.getPackageName(), appInfo.getClassName());
                         listDisableApp.add(disabledApp);
@@ -127,7 +127,7 @@ public class HomePresenter implements HomeContract.IHomePresenter {
                                     public void subscribe(@NonNull ObservableEmitter<Boolean>
                                                                   checkObservable) throws Exception {
                                         for (AppInfo appInfo : listApps) {
-                                            if (appInfo.ismHideOnUserMode()) {
+                                            if (!appInfo.isShowOnUserMode()) {
 
                                                 int packageState = AppStateUtils.getPackageState(context,
                                                         appInfo.getPackageName(), appInfo.getClassName());

@@ -21,7 +21,7 @@ public class AppInfo {
     //应用对应的UId
     private int appUId;
     //在用户模式下是否隐藏应用
-    private boolean mHideOnUserMode;
+    private boolean ShowOnUserMode;
     //应用状态
     private int mState;
 
@@ -30,13 +30,13 @@ public class AppInfo {
 
 
     public AppInfo(Drawable appIcon, String appName, String packageName, String className,
-                   int appUId, boolean mHideOnUserMode, int mState) {
+                   int appUId, boolean showOnUserMode, int mState) {
         this.appIcon = appIcon;
         this.appName = appName;
         this.packageName = packageName;
         this.className = className;
         this.appUId = appUId;
-        this.mHideOnUserMode = mHideOnUserMode;
+        ShowOnUserMode = showOnUserMode;
         this.mState = mState;
     }
 
@@ -80,12 +80,12 @@ public class AppInfo {
         this.appUId = appUId;
     }
 
-    public boolean ismHideOnUserMode() {
-        return mHideOnUserMode;
+    public boolean isShowOnUserMode() {
+        return ShowOnUserMode;
     }
 
-    public void setmHideOnUserMode(boolean mHideOnUserMode) {
-        this.mHideOnUserMode = mHideOnUserMode;
+    public void setShowOnUserMode(boolean showOnUserMode) {
+        ShowOnUserMode = showOnUserMode;
     }
 
     public int getmState() {
@@ -104,7 +104,7 @@ public class AppInfo {
                 ", packageName='" + packageName + '\'' +
                 ", className='" + className + '\'' +
                 ", appUId=" + appUId +
-                ", mHideOnUserMode=" + mHideOnUserMode +
+                ", ShowOnUserMode=" + ShowOnUserMode +
                 ", mState=" + mState +
                 '}';
     }

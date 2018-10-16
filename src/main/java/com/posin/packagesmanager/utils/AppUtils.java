@@ -48,7 +48,7 @@ public class AppUtils {
      * @return
      */
 
-    public List<AppInfo> getAllApp(Context context) throws Exception{
+    public List<AppInfo> getAllApp(Context context) throws Exception {
         List<AppInfo> listAppInfo = new ArrayList<>();
         PackageManager pm = context.getPackageManager();
         List<PackageInfo> listPackages = pm.getInstalledPackages(0);
@@ -67,21 +67,14 @@ public class AppUtils {
                 int packageState = AppStateUtils.getPackageState(context, packageName, className);
 
                 AppInfo appInfo = new AppInfo(appIcon, appName, packageName, className,
-                        uid, false, packageState);
+                        uid, true, packageState);
                 // 是否在黑名单
                 if (isInBlackList(className))
                     continue;
                 // 过滤重复的包
-                if (listAppInfo.contains(appInfo)) {
-                    for (AppInfo a : listAppInfo) {
-                        if (a.getClassName().equals(className)) {
-                            if (a.ismHideOnUserMode()) {
-                                a.setmHideOnUserMode(false);
-                            }
-                        }
-                    }
+                if (listAppInfo.contains(appInfo))
                     continue;
-                }
+
                 listAppInfo.add(appInfo);
             }
         }
@@ -101,21 +94,14 @@ public class AppUtils {
                     int uid = pi.applicationInfo.uid;
                     int packageState = AppStateUtils.getPackageState(context, packageName, className);
 
-                    AppInfo appInfo = new AppInfo(appIcon, appName, packageName, className, uid, true, packageState);
+                    AppInfo appInfo = new AppInfo(appIcon, appName, packageName, className, uid,
+                            false, packageState);
                     // 是否在黑名单
                     if (isInBlackList(className))
                         continue;
                     // 过滤重复的包
-                    if (listAppInfo.contains(appInfo)) {
-                        for (AppInfo a : listAppInfo) {
-                            if (a.getClassName().equals(className)) {
-                                if (a.ismHideOnUserMode()) {
-                                    a.setmHideOnUserMode(false);
-                                }
-                            }
-                        }
+                    if (listAppInfo.contains(appInfo))
                         continue;
-                    }
                     listAppInfo.add(appInfo);
                 }
 
@@ -131,7 +117,7 @@ public class AppUtils {
      * @param context
      * @return
      */
-    public List<AppInfo> getAllShowApp(Context context, List<PackageInfo> listPackages) throws Exception{
+    public List<AppInfo> getAllShowApp(Context context, List<PackageInfo> listPackages) throws Exception {
         List<AppInfo> listAppInfo = new ArrayList<>();
         PackageManager pm = context.getPackageManager();
 //        List<PackageInfo> listPackages = pm.getInstalledPackages(0);
@@ -150,21 +136,23 @@ public class AppUtils {
                 int packageState = AppStateUtils.getPackageState(context, packageName, className);
 
                 AppInfo appInfo = new AppInfo(appIcon, appName, packageName,
-                        className, uid, false, packageState);
+                        className, uid, true, packageState);
                 // 是否在黑名单
                 if (isInBlackList(className))
                     continue;
                 // 过滤重复的包
-                if (listAppInfo.contains(appInfo)) {
-                    for (AppInfo a : listAppInfo) {
-                        if (a.getClassName().equals(className)) {
-                            if (a.ismHideOnUserMode()) {
-                                a.setmHideOnUserMode(false);
-                            }
+                boolean isRepeat = false;
+                for (int j = 0; j < listAppInfo.size(); j++) {
+                    if (listAppInfo.get(j).getClassName().equals(className)) {
+                        if (!listAppInfo.get(j).isShowOnUserMode()) {
+                            listAppInfo.get(j).setShowOnUserMode(true);
                         }
+                        isRepeat = true;
                     }
-                    continue;
                 }
+
+                if (isRepeat)
+                    continue;
                 listAppInfo.add(appInfo);
             }
         }
@@ -196,21 +184,23 @@ public class AppUtils {
                     int packageState = AppStateUtils.getPackageState(context, packageName, className);
 
                     AppInfo appInfo = new AppInfo(appIcon, appName, packageName, className,
-                            uid, true, packageState);
+                            uid, false, packageState);
                     // 是否在黑名单
                     if (isInBlackList(className))
                         continue;
                     // 过滤重复的包
-                    if (listAllDisableApps.contains(appInfo)) {
-                        for (AppInfo a : listAllDisableApps) {
-                            if (a.getClassName().equals(className)) {
-                                if (a.ismHideOnUserMode()) {
-                                    a.setmHideOnUserMode(false);
-                                }
+                    boolean isRepeat = false;
+                    for (int j = 0; j < listAllDisableApps.size(); j++) {
+                        if (listAllDisableApps.get(j).getClassName().equals(className)) {
+                            if (!listAllDisableApps.get(j).isShowOnUserMode()) {
+                                listAllDisableApps.get(j).setShowOnUserMode(true);
                             }
+                            isRepeat = true;
                         }
-                        continue;
                     }
+                    if (isRepeat)
+                        continue;
+
                     listAllDisableApps.add(appInfo);
                 }
 
@@ -245,7 +235,7 @@ public class AppUtils {
      *
      * @return
      */
-    private List<ComponentName> getPackageDisabled() throws Exception{
+    private List<ComponentName> getPackageDisabled() throws Exception {
         try {
             StringBuilder sb = new StringBuilder();
             SuShell.exec("cat /data/system/users/0/package-restrictions.xml", sb, 10000);

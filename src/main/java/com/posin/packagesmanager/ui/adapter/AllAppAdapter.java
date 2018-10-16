@@ -66,14 +66,13 @@ public class AllAppAdapter extends RecyclerView.Adapter<AllAppAdapter.AppItemMes
         holder.tvAppName.setText(appInfo.getAppName());
         holder.tvAppDesc.setText(appInfo.getPackageName() + " / " + appInfo.getClassName() +
                 " /UID=" + appInfo.getAppUId());
-        holder.sbSwitchApp.setChecked(appInfo.ismHideOnUserMode());
-        holder.sbSwitchApp.setChecked(listAppInfo.get(position).ismHideOnUserMode());
+        holder.sbSwitchApp.setChecked(appInfo.isShowOnUserMode());
 
         holder.sbSwitchApp.setOnCheckedChangeListener(new SwitchButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(SwitchButton view, boolean isChecked) {
 //                Log.e(TAG, "position： " + position + "   isChecked: " + isChecked);
-                listAppInfo.get(position).setmHideOnUserMode(isChecked);
+                listAppInfo.get(position).setShowOnUserMode(isChecked);
             }
         });
 
@@ -81,7 +80,7 @@ public class AllAppAdapter extends RecyclerView.Adapter<AllAppAdapter.AppItemMes
             @Override
             public void onClickChange(SwitchButton view, boolean isChecked) {
                 managerAppPresenter.managerApp(context, listAppInfo.get(position).getClassName(),
-                        listAppInfo.get(position).getPackageName(), !isChecked);
+                        listAppInfo.get(position).getPackageName(), isChecked);
                 operationPosition = position;
                 mHandler = holder;
             }
@@ -102,12 +101,11 @@ public class AllAppAdapter extends RecyclerView.Adapter<AllAppAdapter.AppItemMes
             if (PackagesConfig.getUserModel()) {
                 //用户模式下，打开隐藏app的开关，isVisible返回的是false,图标已被隐藏
                 //管理员模式下，打开隐藏app的开关，isVisible返回的是true,图标未被隐藏，只有切换到用户模式才会隐藏
-                listAppInfo.get(operationPosition).setmHideOnUserMode(!isVisible);
+                listAppInfo.get(operationPosition).setShowOnUserMode(isVisible);
             }
             listAppInfo.get(operationPosition).setmState(state);
         }
 //        Log.e(TAG, "修改成功22： " + listAppInfo.get(operationPosition).toString());
-
         saveAppConfigPresenter.saveConfig(context,
                 PackagesConfig.Disable_APP_CONFIG_FILE, PackagesConfig.getUserModel(), listAppInfo);
     }
@@ -117,12 +115,12 @@ public class AllAppAdapter extends RecyclerView.Adapter<AllAppAdapter.AppItemMes
         Toast.makeText(context, context.getString(R.string.modify_app_status_error),
                 Toast.LENGTH_SHORT).show();
         if (listAppInfo.size() > operationPosition) {
-            listAppInfo.get(operationPosition).setmHideOnUserMode(!isVisible);
+            listAppInfo.get(operationPosition).setShowOnUserMode(isVisible);
             listAppInfo.get(operationPosition).setmState(state);
         }
 
         if (mHandler != null) {
-            mHandler.sbSwitchApp.setChecked(!isVisible);
+            mHandler.sbSwitchApp.setChecked(isVisible);
         }
     }
 

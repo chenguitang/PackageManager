@@ -235,7 +235,7 @@ public class MainActivity extends BaseActivity implements
             for (PackagesMessage.DisabledBean disabledApp : listDisableApp) {
                 if (disabledApp.getPackageName().equals(listApps.get(i).getPackageName()) &&
                         disabledApp.getClassName().equals(listApps.get(i).getClassName())) {
-                    listApps.get(i).setmHideOnUserMode(true);
+                    listApps.get(i).setShowOnUserMode(false);
                     Log.e(TAG, "package name: " + disabledApp.getPackageName());
                 }
             }
