@@ -47,7 +47,7 @@ public class AllAppAdapter extends RecyclerView.Adapter<AllAppAdapter.AppItemMes
         this.listAppInfo = listAppInfo;
         managerAppPresenter = new ManagerAppPresenter(context, this);
         saveAppConfigPresenter = new SaveAppConfigPresenter(context, this);
-        mLoadingDialog = new LoadingDialog(context, "正在拼命加载中");
+        mLoadingDialog = new LoadingDialog(context, context.getString(R.string.desperate_loading));
     }
 
     @Override
@@ -114,7 +114,8 @@ public class AllAppAdapter extends RecyclerView.Adapter<AllAppAdapter.AppItemMes
 
     @Override
     public void managerFailure(boolean isVisible, int state, String errorMessage) {
-        Toast.makeText(context, "修改失败，请重新尝试.", Toast.LENGTH_SHORT).show();
+        Toast.makeText(context, context.getString(R.string.modify_app_status_error),
+                Toast.LENGTH_SHORT).show();
         if (listAppInfo.size() > operationPosition) {
             listAppInfo.get(operationPosition).setmHideOnUserMode(!isVisible);
             listAppInfo.get(operationPosition).setmState(state);
@@ -140,12 +141,14 @@ public class AllAppAdapter extends RecyclerView.Adapter<AllAppAdapter.AppItemMes
 
     @Override
     public void saveSuccess() {
-        Toast.makeText(context, "修改成功，数据保存成功.", Toast.LENGTH_SHORT).show();
+        Toast.makeText(context, context.getString(R.string.modify_app_status_success),
+                Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void saveFailure(String errorMessage) {
-        Toast.makeText(context, "数据保存失败.", Toast.LENGTH_SHORT).show();
+        Toast.makeText(context, context.getString(R.string.save_error),
+                Toast.LENGTH_SHORT).show();
     }
 
     public class AppItemMessageHolder extends RecyclerView.ViewHolder {

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.Log;
 
 import com.google.gson.Gson;
+import com.posin.packagesmanager.R;
 import com.posin.packagesmanager.base.PackagesConfig;
 import com.posin.packagesmanager.bean.AppInfo;
 import com.posin.packagesmanager.bean.PackagesMessage;
@@ -141,12 +142,14 @@ public class HomePresenter implements HomeContract.IHomePresenter {
                                                 if (!userModel && visible) {
                                                     Log.e(TAG, "修改失败");
                                                     checkObservable.onError(
-                                                            new Exception("切换使用模式，修改部分应用失败."));
+                                                            new Exception(context.getString(
+                                                                    R.string.switch_model_failure)));
                                                     return;
                                                 } else if (userModel && !visible) {
                                                     Log.e(TAG, "修改失败");
                                                     checkObservable.onError(
-                                                            new Exception("切换使用模式，修改部分应用失败."));
+                                                            new Exception(context.getString(
+                                                                    R.string.switch_model_failure)));
                                                     return;
                                                 }
                                             }

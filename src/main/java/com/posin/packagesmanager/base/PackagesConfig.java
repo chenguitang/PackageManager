@@ -18,6 +18,8 @@ public class PackagesConfig {
             "com.android.stk.StkLauncherActivity",
             "com.android.provision.DefaultActivity",
             "com.android.settings.CryptKeeper",
+            "com.android.camera.DisableCameraReceiver",
+            "com.android.camera.CameraLauncher",
     };
 
     /**

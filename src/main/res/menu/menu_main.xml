@@ -8,21 +8,21 @@
         android:id="@+id/switch_model"
         android:icon="@mipmap/ic_switch_model"
         android:orderInCategory="90"
-        android:title="切换模式"
+        android:title="@string/switch_model"
         app:showAsAction="never" />
 
     <item
         android:id="@+id/modify_password"
         android:icon="@mipmap/ic_modify_password"
         android:orderInCategory="90"
-        android:title="修改密码"
+        android:title="@string/modify_password"
         app:showAsAction="never" />
 
     <item
         android:id="@+id/app_about"
         android:icon="@mipmap/ic_about_app"
         android:orderInCategory="90"
-        android:title="关于"
+        android:title="@string/about"
         app:showAsAction="never" />
 
     <item

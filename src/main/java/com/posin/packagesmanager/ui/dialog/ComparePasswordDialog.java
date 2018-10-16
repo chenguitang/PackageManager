@@ -89,7 +89,8 @@ public class ComparePasswordDialog extends BaseDialog {
                 String password = etPassword.getText().toString().trim();
 
                 if (TextUtils.isEmpty(password)) {
-                    mComparePasswordView.compareFailure("密码不能为空 ！");
+                    mComparePasswordView.compareFailure(
+                            mContext.getString(R.string.password_no_empty));
                     return;
                 }
                 mComparePasswordPresenter.comparePassword(password);
@@ -107,7 +108,7 @@ public class ComparePasswordDialog extends BaseDialog {
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK
                 && event.getRepeatCount() == 0) {
-                return true;
+            return true;
         }
         return super.onKeyDown(keyCode, event);
     }

@@ -94,20 +94,23 @@ public class ModifyPasswordDialog extends BaseDialog {
                 if (TextUtils.isEmpty(modifyPassword) || TextUtils.isEmpty(comparePassword)) {
 //                    Toast.makeText(mContext, "新密码及确认新密码不能为空，请检查重新输入.",
 //                            Toast.LENGTH_SHORT).show();
-                    mModifyPasswordView.modifyPasswordFailure("新密码及确认新密码不能为空，请检查重新输入.");
+                    mModifyPasswordView.modifyPasswordFailure(
+                            mContext.getString(R.string.new_password_no_empty));
                     return;
                 }
 
                 if (!modifyPassword.equals(comparePassword)) {
 //                    Toast.makeText(mContext, "新密码与确认新密码不一致，请重新输入",
 //                            Toast.LENGTH_SHORT).show();
-                    mModifyPasswordView.modifyPasswordFailure("新密码与确认新密码不一致，请重新输入");
+                    mModifyPasswordView.modifyPasswordFailure(
+                            mContext.getString(R.string.two_password_difference));
                     return;
                 }
 
                 if (modifyPassword.length() < 6 || comparePassword.length() < 6 ||
                         modifyPassword.length() > 16 || comparePassword.length() > 16) {
-                    mModifyPasswordView.modifyPasswordFailure("新密码长度必须为6~16位，请检查重新输入");
+                    mModifyPasswordView.modifyPasswordFailure(
+                            mContext.getString(R.string.password_length_invalid));
                     return;
                 }
 
@@ -121,6 +124,7 @@ public class ModifyPasswordDialog extends BaseDialog {
                 break;
         }
     }
+
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK

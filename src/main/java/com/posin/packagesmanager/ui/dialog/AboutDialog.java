@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.posin.packagesmanager.R;
 import com.posin.packagesmanager.base.BaseDialog;
 import com.posin.packagesmanager.utils.DensityUtils;
+import com.posin.packagesmanager.utils.LanguageUtils;
 
 import butterknife.BindView;
 
@@ -52,8 +53,14 @@ public class AboutDialog extends BaseDialog implements View.OnClickListener {
             WindowManager.LayoutParams lp = mWindow.getAttributes();
             lp.gravity = Gravity.CENTER;
             //适配不同密度的机器屏幕
-            lp.width = DensityUtils.dp2px(mContext, 550);
-            lp.height = DensityUtils.dp2px(mContext, 620);
+            boolean is_cn = LanguageUtils.isCn(mContext);
+            if (is_cn){
+                lp.width = DensityUtils.dp2px(mContext, 570);
+                lp.height = DensityUtils.dp2px(mContext, 650);
+            }else{
+                lp.width = DensityUtils.dp2px(mContext, 600);
+                lp.height = DensityUtils.dp2px(mContext, 720);
+            }
             mWindow.setAttributes(lp);
         }
     }

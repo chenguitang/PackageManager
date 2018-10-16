@@ -1,8 +1,42 @@
 <resources>
-    <string name="app_name">APP管理器</string>
-    <string name="dialog_loading_default_title">加载中</string>
-    <string name="exit_app">退出应用</string>
-    <string name="confirm">确认</string>
-    <string name="cancel">取消</string>
+    <string name="app_name">AppManager</string>
+    <string name="dialog_loading_default_title">Loading</string>
+    <string name="exit_app">Exit</string>
+    <string name="confirm">Confirm</string>
+    <string name="cancel">Cancel</string>
+    <string name="confirm_password_tip">Password:</string>
+    <string name="confirm_password_title">Login APP Manager</string>
+    <string name="password">Password</string>
+    <string name="password_input_tip">Please enter your password</string>
+    <string name="model_admin">Administrator mode</string>
+    <string name="model_user">User mode</string>
+    <string name="modify_password">Change Password</string>
+    <string name="about">About</string>
+    <string name="switch_model">Switch mode</string>
+    <string name="cancel_modify_password">You have cancelled your password</string>
+    <string name="desperate_loading">Loading</string>
+    <string name="load_all_app_error">Loading failed, please exit the app and reopen the App Manager:</string>
+    <string name="load_appconfig_error">Data loading failed:</string>
+    <string name="modify_password_title">Modify the login password</string>
+    <string name="switch_model_data_error">The data is incorrect, please close the app and reopen</string>
+    <string name="switch_model_error">Switch mode failed:</string>
+    <string name="switch_model_success_current">The switch is successful. The current usage mode is:</string>
+    <string name="confirm_new_password">&#160;&#160;&#160;Confirm: </string>
+    <string name="confirm_new_password_tip">Please enter your new password again</string>
+    <string name="modify_app_status_error">The modification failed, please try again.</string>
+    <string name="modify_app_status_success">The modification is successful and the data is saved successfully.</string>
+    <string name="new_password">Password: </string>
+    <string name="new_password_tip">Please enter a new password</string>
+    <string name="save_error">Data saving failed.</string>
+    <string name="modify_password_success">Password modify complete</string>
+    <string name="app_use_desc">1. The function of the APP manager is to control the system desktop display or not to display the specific application icon. \n\n2. The App manager has two usage modes. Click the icon in the upper right corner and select the switching mode in the pop-up menu to switch the usage mode. The mode name displayed in the upper left corner is the current usage mode. \n\n3. In the user mode, the corresponding switch button is opened. After the operation is completed, the corresponding icon of the application will be hidden, and the application icon will no longer be displayed on the system desktop. Close the corresponding switch button of the app and the app icon will be displayed on the desktop. \n\n4. Administrator Mode The system desktop displays all application icons, including application icons that have been hidden in application mode. In the administrator mode, the application switch button is turned on or off, the application icon is not hidden, and the user mode is switched after the operation is completed.</string>
+    <string name="app_use_desc_title">Instructions for use</string>
+    <string name="modify_app_status_failure">Modifying the application state failed.</string>
+    <string name="new_password_no_empty">The new password and the confirmation new password cannot be empty, please check and re-enter.</string>
+    <string name="password_error_input_again">The password is wrong, please re-enter the password!</string>
+    <string name="password_length_invalid">The new password must be 6~16 digits long. Please check and re-enter</string>
+    <string name="password_no_empty">password can not be blank</string>
+    <string name="switch_model_failure">Switch usage mode, modify some applications failed.</string>
+    <string name="two_password_difference">The new password does not match the new password. Please re-enter</string>
 
 </resources>

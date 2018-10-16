@@ -3,6 +3,7 @@ package com.posin.packagesmanager.ui.presenter;
 import android.content.Context;
 import android.util.Log;
 
+import com.posin.packagesmanager.R;
 import com.posin.packagesmanager.base.PackagesConfig;
 import com.posin.packagesmanager.bean.AppInfo;
 import com.posin.packagesmanager.ui.contract.ManagerAppContract;
@@ -78,7 +79,8 @@ public class ManagerAppPresenter implements ManagerAppContract.IManagerAppPresen
 
                                         if (visible != isAble && isUserModel) {
                                             Log.e(TAG, "修改失败...");
-                                            checkObservable.onError(new Exception("修改应用状态失败."));
+                                            checkObservable.onError(new Exception(context.getString(
+                                                    R.string.modify_app_status_failure)));
                                         } else {
                                             checkObservable.onNext(true);
 

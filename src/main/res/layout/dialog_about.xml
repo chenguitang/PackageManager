@@ -40,7 +40,7 @@
         android:layout_below="@+id/tv_about_app_version"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="10dp"
-        android:text="使用说明"
+        android:text="@string/app_use_desc_title"
         android:textSize="18sp" />
 
     <TextView
@@ -51,7 +51,7 @@
         android:gravity="start|top"
         android:lineSpacingExtra="5dp"
         android:padding="10dp"
-        android:text="1、APP管理器的作用是控制系统桌面显示或不显示具体的应用图标\n\n2、App管理器有两种使用模式，点击右上角的图标，选择弹出菜单中的切换模式即可切换使用模式，应用左上角显示的模式名称为当前使用模式\n\n3、用户模式下，打开应用对应的开关按钮，等待操作完成后，应用对应的图标将会被隐藏，系统桌面将不再显示该应用图标。关闭应用对应的开关按钮，应用图标将显示在桌面上。\n\n4、管理员模式系统桌面会显示所有的应用图标，包括在应用模式下已被隐藏的应用图标。管理员模式下，打开或关闭应用开关按钮，应用图标不会被隐藏，需要操作完成后切换到用户模式。"
+        android:text="@string/app_use_desc"
         android:textSize="16sp" />
 
 

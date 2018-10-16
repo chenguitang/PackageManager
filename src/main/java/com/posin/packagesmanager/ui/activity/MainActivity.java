@@ -25,6 +25,7 @@ import com.posin.packagesmanager.ui.dialog.ComparePasswordDialog;
 import com.posin.packagesmanager.ui.dialog.ModifyPasswordDialog;
 import com.posin.packagesmanager.ui.presenter.HomePresenter;
 import com.posin.packagesmanager.ui.presenter.LoadConfigPresenter;
+import com.posin.packagesmanager.utils.LanguageUtils;
 
 import java.lang.reflect.Method;
 import java.util.List;
@@ -65,7 +66,7 @@ public class MainActivity extends BaseActivity implements
     @Override
     public void initToolBar() {
         mCommonToolbar.setLogo(R.mipmap.icon_app_model2);
-        mCommonToolbar.setTitle("用户模式");
+        mCommonToolbar.setTitle(getString(R.string.model_user));
     }
 
     /**
@@ -96,11 +97,13 @@ public class MainActivity extends BaseActivity implements
                     homePresenter.switchModel(!mIsUserModel, allAppAdapter.getListData(),
                             PackagesConfig.Disable_APP_CONFIG_FILE);
                 } else {
-                    Toast.makeText(mContext, "数据有误,请关闭应用重新打开", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mContext, getString(R.string.switch_model_data_error),
+                            Toast.LENGTH_SHORT).show();
                 }
                 break;
             case R.id.modify_password:
-                modifyPasswordDialog = new ModifyPasswordDialog(this, "修改登录密码", this);
+                modifyPasswordDialog = new ModifyPasswordDialog(this,
+                        getString(R.string.modify_password_title), this);
                 modifyPasswordDialog.show();
                 break;
             case R.id.app_about:
@@ -152,9 +155,8 @@ public class MainActivity extends BaseActivity implements
 
     @Override
     public void initData() {
-
-
-        comparePasswordDialog = new ComparePasswordDialog(this, "登录App管理器", this);
+        comparePasswordDialog = new ComparePasswordDialog(this,
+                getString(R.string.confirm_password_title), this);
         comparePasswordDialog.show();
 
         homePresenter = new HomePresenter(this, this);
@@ -190,7 +192,7 @@ public class MainActivity extends BaseActivity implements
 
     @Override
     public void showProgress() {
-        showLoadingDialog("正在拼命加载中");
+        showLoadingDialog(getString(R.string.desperate_loading));
     }
 
     @Override
@@ -205,6 +207,8 @@ public class MainActivity extends BaseActivity implements
                 modifyPasswordDialog.dismiss();
             }
         }
+        Toast.makeText(mContext, getString(R.string.modify_password_success),
+                Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -216,7 +220,8 @@ public class MainActivity extends BaseActivity implements
     @Override
     public void cancelModifyPassword() {
         Log.d(TAG, "取消修改密码");
-        Toast.makeText(mContext, "您已取消修改密码", Toast.LENGTH_SHORT).show();
+        Toast.makeText(mContext, getString(R.string.cancel_modify_password),
+                Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -243,16 +248,20 @@ public class MainActivity extends BaseActivity implements
     @Override
     public void loadAllAppFailure(String errorMessage) {
         Log.d(TAG, "数据加载失败，无法加载应用列表");
-        Toast.makeText(mContext, "加载失败，请退出应用,再重新打开App管理器: " + errorMessage,
+        Toast.makeText(mContext, getString(R.string.load_all_app_error) + errorMessage,
                 Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void switchModelSuccess(boolean isUserModel) {
-        mCommonToolbar.setTitle(isUserModel ? "用户模式" : "管理员模式");
+        mCommonToolbar.setTitle(isUserModel ? getString(R.string.model_user) :
+                getString(R.string.model_admin));
         this.mIsUserModel = isUserModel;
-        Toast.makeText(mContext, "切换成功，当前使用模式为：" + (isUserModel ? "用户模式" : "管理员模式"),
+        Toast.makeText(mContext, getString(R.string.switch_model_success_current) +
+                        (isUserModel ? getString(R.string.model_user) :
+                                getString(R.string.model_admin)),
                 Toast.LENGTH_SHORT).show();
+
         Log.d(TAG, "模式切换成功，当前使用模式为：" + (isUserModel ? "用户模式" : "管理员模式"));
         PackagesConfig.setUserModel(isUserModel);
     }
@@ -260,7 +269,8 @@ public class MainActivity extends BaseActivity implements
     @Override
     public void switchModelFailure(String errorMessage) {
         Log.d(TAG, "切换模式失败");
-        Toast.makeText(mContext, "切换模式失败: " + errorMessage, Toast.LENGTH_SHORT).show();
+        Toast.makeText(mContext, getString(R.string.switch_model_error) +
+                errorMessage, Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -270,7 +280,8 @@ public class MainActivity extends BaseActivity implements
         PackagesConfig.setUserModel(isUserModel);
         Log.d(TAG, "isUserModel: " + isUserModel);
         Log.d(TAG, "加载应用保存的配置文件成功");
-        mCommonToolbar.setTitle(isUserModel ? "用户模式" : "管理员模式");
+        mCommonToolbar.setTitle(isUserModel ? getString(R.string.model_user) :
+                getString(R.string.model_admin));
 //        for (PackagesMessage.DisabledBean disableApp : listPackages) {
 //            Log.e(TAG, "packagesMessage: " + disableApp.toString());
 //        }
@@ -278,7 +289,8 @@ public class MainActivity extends BaseActivity implements
 
     @Override
     public void loadConfigFailure(String errorMessage) {
-        Toast.makeText(mContext, "数据加载失败： " + errorMessage, Toast.LENGTH_SHORT).show();
+        Toast.makeText(mContext, getString(R.string.load_appconfig_error) +
+                errorMessage, Toast.LENGTH_SHORT).show();
         Log.d(TAG, "加载应用保存的配置文件成功");
     }
 

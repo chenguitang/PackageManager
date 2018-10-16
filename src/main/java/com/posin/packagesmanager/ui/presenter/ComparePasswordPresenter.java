@@ -4,6 +4,7 @@ import android.content.Context;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.posin.packagesmanager.R;
 import com.posin.packagesmanager.base.SpConfig;
 import com.posin.packagesmanager.ui.contract.ComparePasswordContract;
 import com.posin.packagesmanager.utils.SPUtil;
@@ -48,7 +49,8 @@ public class ComparePasswordPresenter implements ComparePasswordContract.ICompar
                     savePassword = "1234";
                 }
                 if (!password.equals(savePassword)) {
-                    observable.onError(new Exception("密码错误,请重新输入密码!"));
+                    observable.onError(new Exception(
+                            mContext.getString(R.string.password_error_input_again)));
                 } else {
                     observable.onNext(true);
                 }
