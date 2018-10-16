@@ -3,6 +3,7 @@ package com.posin.packagesmanager.ui.dialog;
 import android.content.Context;
 import android.text.TextUtils;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -57,7 +58,7 @@ public class ModifyPasswordDialog extends BaseDialog {
     @Override
     public void initDialogSetting() {
         //点击空白处不能取消dialog弹框
-//        setCanceledOnTouchOutside(false);
+        setCanceledOnTouchOutside(false);
 
         //修改dialog弹框大小
         Window mWindow = this.getWindow();
@@ -119,6 +120,14 @@ public class ModifyPasswordDialog extends BaseDialog {
             default:
                 break;
         }
+    }
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK
+                && event.getRepeatCount() == 0) {
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 
 }

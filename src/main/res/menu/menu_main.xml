@@ -19,6 +19,13 @@
         app:showAsAction="never" />
 
     <item
+        android:id="@+id/app_about"
+        android:icon="@mipmap/ic_about_app"
+        android:orderInCategory="90"
+        android:title="关于"
+        app:showAsAction="never" />
+
+    <item
         android:id="@+id/system_exit"
         android:icon="@mipmap/ic_exit_app"
         android:orderInCategory="90"

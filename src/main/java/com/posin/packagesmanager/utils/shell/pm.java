@@ -17,8 +17,7 @@ public class pm {
 	
 	public static void main(String[] args) {
 
-		Log.e(TAG, "执行了Main方法: ");
-
+		Log.d(TAG, "执行了Main方法: ");
 
 		if(args == null || args.length != 3) {
 			printUsage();
@@ -30,8 +29,8 @@ public class pm {
 		final String pkgCls = args[1];
 		int newState = 0;
 
-		Log.e(TAG, "package name: "+pkgName);
-		Log.e(TAG, "package class: "+pkgCls);
+		Log.d(TAG, "package name: "+pkgName);
+		Log.d(TAG, "package class: "+pkgCls);
 
 
 		if("enable".equals(args[2])) {

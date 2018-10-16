@@ -20,6 +20,7 @@ import com.posin.packagesmanager.ui.contract.ComparePasswordContract;
 import com.posin.packagesmanager.ui.contract.HomeContract;
 import com.posin.packagesmanager.ui.contract.LoadAppConfigContract;
 import com.posin.packagesmanager.ui.contract.ModifyPasswordContract;
+import com.posin.packagesmanager.ui.dialog.AboutDialog;
 import com.posin.packagesmanager.ui.dialog.ComparePasswordDialog;
 import com.posin.packagesmanager.ui.dialog.ModifyPasswordDialog;
 import com.posin.packagesmanager.ui.presenter.HomePresenter;
@@ -30,6 +31,12 @@ import java.util.List;
 
 import butterknife.BindView;
 
+/**
+ * FileName: MainActivity
+ * Author: Greetty
+ * Time: 2018/10/11 17:03
+ * Desc: TODO
+ */
 public class MainActivity extends BaseActivity implements
         ComparePasswordContract.IComparePasswordView, ModifyPasswordContract.IModifyPasswordView,
         LoadAppConfigContract.ILoadAppConfigView, HomeContract.IHomeView {
@@ -96,6 +103,9 @@ public class MainActivity extends BaseActivity implements
                 modifyPasswordDialog = new ModifyPasswordDialog(this, "修改登录密码", this);
                 modifyPasswordDialog.show();
                 break;
+            case R.id.app_about:
+                new AboutDialog(this).show();
+                break;
             case R.id.system_exit:
                 MainActivity.this.finish();
                 System.exit(0);
@@ -151,7 +161,6 @@ public class MainActivity extends BaseActivity implements
         loadConfigPresenter = new LoadConfigPresenter(this, this);
 
         loadConfigPresenter.readConfig(this, PackagesConfig.Disable_APP_CONFIG_FILE);
-
     }
 
     @Override
