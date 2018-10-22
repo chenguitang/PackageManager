@@ -8,8 +8,8 @@ android {
         minSdkVersion 15
         //noinspection OldTargetApi
         targetSdkVersion 26
-        versionCode 5
-        versionName "AppManager_Beat_1.0.5"
+        versionCode 7
+        versionName "AppManager_Beta_1.0.7"
         multiDexEnabled true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }

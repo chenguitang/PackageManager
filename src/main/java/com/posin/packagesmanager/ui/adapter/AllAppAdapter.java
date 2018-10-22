@@ -6,9 +6,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import com.posin.packagesmanager.R;
 import com.posin.packagesmanager.base.PackagesConfig;
@@ -31,7 +33,8 @@ import butterknife.ButterKnife;
  * Time: 2018/10/12 16:13
  * Desc: TODO
  */
-public class AllAppAdapter extends RecyclerView.Adapter<AllAppAdapter.AppItemMessageHolder> implements ManagerAppContract.IManagerAppView, SaveAppConfigContract.ISaveConfigView {
+public class AllAppAdapter extends RecyclerView.Adapter<AllAppAdapter.AppItemMessageHolder>
+        implements ManagerAppContract.IManagerAppView, SaveAppConfigContract.ISaveConfigView {
 
     private static final String TAG = "AllAppAdapter";
     private Context context;
@@ -59,32 +62,54 @@ public class AllAppAdapter extends RecyclerView.Adapter<AllAppAdapter.AppItemMes
     @Override
     public void onBindViewHolder(final AppItemMessageHolder holder, final int position) {
 
-        holder.setIsRecyclable(false);
+//        holder.setIsRecyclable(false);
 
         final AppInfo appInfo = listAppInfo.get(position);
         holder.ivAppIcon.setImageDrawable(appInfo.getAppIcon());
         holder.tvAppName.setText(appInfo.getAppName());
         holder.tvAppDesc.setText(appInfo.getPackageName() + " / " + appInfo.getClassName() +
                 " /UID=" + appInfo.getAppUId());
-        holder.sbSwitchApp.setChecked(appInfo.isShowOnUserMode());
 
-        holder.sbSwitchApp.setOnCheckedChangeListener(new SwitchButton.OnCheckedChangeListener() {
+//==================================================================================================
+//使用ToggleButton,适配RecycleView复用导致显示异常问题
+//==================================================================================================
+
+        holder.toggleBtn.setOnCheckedChangeListener(null);
+        holder.toggleBtn.setChecked(appInfo.isShowOnUserMode());
+        holder.toggleBtn.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
-            public void onCheckedChanged(SwitchButton view, boolean isChecked) {
-//                Log.e(TAG, "position： " + position + "   isChecked: " + isChecked);
+            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
                 listAppInfo.get(position).setShowOnUserMode(isChecked);
-            }
-        });
-
-        holder.sbSwitchApp.setOnClickChangeListener(new SwitchButton.onClickChangerListener() {
-            @Override
-            public void onClickChange(SwitchButton view, boolean isChecked) {
+                Log.e(TAG, "position： " + position + "   isChecked: " + isChecked);
                 managerAppPresenter.managerApp(context, listAppInfo.get(position).getClassName(),
                         listAppInfo.get(position).getPackageName(), isChecked);
                 operationPosition = position;
                 mHandler = holder;
             }
         });
+
+
+//==================================================================================================
+//使用自定义的SwitchButton
+//==================================================================================================
+//        holder.sbSwitchApp.setChecked(appInfo.isShowOnUserMode());
+//        holder.sbSwitchApp.setOnCheckedChangeListener(new SwitchButton.OnCheckedChangeListener() {
+//            @Override
+//            public void onCheckedChanged(SwitchButton view, boolean isChecked) {
+////                Log.e(TAG, "position： " + position + "   isChecked: " + isChecked);
+//                listAppInfo.get(position).setShowOnUserMode(isChecked);
+//            }
+//        });
+//
+//        holder.sbSwitchApp.setOnClickChangeListener(new SwitchButton.onClickChangerListener() {
+//            @Override
+//            public void onClickChange(SwitchButton view, boolean isChecked) {
+//                managerAppPresenter.managerApp(context, listAppInfo.get(position).getClassName(),
+//                        listAppInfo.get(position).getPackageName(), isChecked);
+//                operationPosition = position;
+//                mHandler = holder;
+//            }
+//        });
     }
 
     @Override
@@ -120,7 +145,7 @@ public class AllAppAdapter extends RecyclerView.Adapter<AllAppAdapter.AppItemMes
         }
 
         if (mHandler != null) {
-            mHandler.sbSwitchApp.setChecked(isVisible);
+            mHandler.toggleBtn.setChecked(isVisible);
         }
     }
 
@@ -157,10 +182,12 @@ public class AllAppAdapter extends RecyclerView.Adapter<AllAppAdapter.AppItemMes
         TextView tvAppName;
         @BindView(R.id.tv_app_desc)
         TextView tvAppDesc;
-        @BindView(R.id.sb_switch_app)
-        SwitchButton sbSwitchApp;
+        //        @BindView(R.id.sb_switch_app)
+//        SwitchButton sbSwitchApp;
 //        @BindView(R.id.sb_switch_app)
 //        CheckBox sbSwitchApp;
+        @BindView(R.id.toggle_btn)
+        ToggleButton toggleBtn;
 
         public AppItemMessageHolder(View itemView) {
             super(itemView);
