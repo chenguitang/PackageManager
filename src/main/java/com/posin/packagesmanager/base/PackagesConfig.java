@@ -13,13 +13,26 @@ public class PackagesConfig {
             //应用自身
             "com.posin.packagesmanager.ui.activity.MainActivity",
             "com.minipos.packagesmanager.ui.activity.MainActivity",
-            // system disabled component
+            //system disabled component
             "com.android.inputmethod.latin.setup.SetupActivity",
             "com.android.stk.StkLauncherActivity",
             "com.android.provision.DefaultActivity",
             "com.android.settings.CryptKeeper",
             "com.android.camera.DisableCameraReceiver",
             "com.android.camera.CameraLauncher",
+            //美团收银
+            "com.xiaomi.mipush.sdk.MessageHandleService",
+            "com.xiaomi.mipush.sdk.PushMessageHandler",
+            "com.xiaomi.push.service.receivers.NetworkStatusReceiver",
+            "com.huawei.android.pushagent.PushEventReceiver",
+            "com.xiaomi.push.service.receivers.PingReceiver",
+            "com.xiaomi.push.service.XMPushService",
+            "com.dianping.base.push.pushservice.MZPushService",
+            "com.huawei.android.pushagent.PushService",
+            "com.dianping.base.push.pushservice.MZPushReceiver",
+            "com.dianping.base.push.pushservice.HWPushMessageReceiver",
+            "com.huawei.android.pushagent.PushBootReceiver",
+
     };
 
     /**

@@ -59,6 +59,7 @@ public class AppUtils {
             List<ResolveInfo> listResolveInfo = AppUtils.findActivitiesForPackage(pm, pi.packageName);
             for (ResolveInfo resolveInfo : listResolveInfo) {
 
+
                 Drawable appIcon = pi.applicationInfo.loadIcon(pm);
                 String className = resolveInfo.activityInfo.name;
                 String appName = pi.applicationInfo.loadLabel(pm).toString();
@@ -102,6 +103,7 @@ public class AppUtils {
                     // 过滤重复的包
                     if (listAppInfo.contains(appInfo))
                         continue;
+                    Log.d(TAG, "隐藏的应用信息：" + appInfo.toString());
                     listAppInfo.add(appInfo);
                 }
 
@@ -117,7 +119,8 @@ public class AppUtils {
      * @param context
      * @return
      */
-    public List<AppInfo> getAllShowApp(Context context, List<PackageInfo> listPackages) throws Exception {
+    public List<AppInfo> getAllShowApp(Context context,
+                                       List<PackageInfo> listPackages) throws Exception {
         List<AppInfo> listAppInfo = new ArrayList<>();
         PackageManager pm = context.getPackageManager();
 //        List<PackageInfo> listPackages = pm.getInstalledPackages(0);
@@ -165,7 +168,8 @@ public class AppUtils {
      * @param context
      * @return
      */
-    public List<AppInfo> getAllDisableApp(Context context, List<PackageInfo> allPackageInfo) throws Exception {
+    public List<AppInfo> getAllDisableApp(Context context,
+                                          List<PackageInfo> allPackageInfo) throws Exception {
 
         List<AppInfo> listAllDisableApps = new ArrayList<>();
         PackageManager pm = context.getPackageManager();
@@ -222,7 +226,8 @@ public class AppUtils {
      * Query the package manager for MAIN/LAUNCHER activities in the supplied package.
      * 查询包管理器中提供的包中的主/启动程序活动。
      */
-    public static List<ResolveInfo> findActivitiesForPackage(PackageManager packageManager, String packageName) {
+    public static List<ResolveInfo> findActivitiesForPackage(
+            PackageManager packageManager, String packageName) {
         final Intent mainIntent = new Intent(Intent.ACTION_MAIN, null);
         mainIntent.addCategory(Intent.CATEGORY_LAUNCHER);
         mainIntent.setPackage(packageName);
@@ -268,8 +273,8 @@ public class AppUtils {
     /**
      * 判断该应用是否在黑名单中
      *
-     * @param className
-     * @return
+     * @param className 类名
+     * @return boolean
      */
     private static boolean isInBlackList(String className) {
         for (String s : PackagesConfig.BLACK_LIST) {

@@ -8,8 +8,8 @@ android {
         minSdkVersion 15
         //noinspection OldTargetApi
         targetSdkVersion 26
-        versionCode 7
-        versionName "AppManager_Beta_1.0.7"
+        versionCode 8
+        versionName "AppManager_Beta_1.0.8"
         multiDexEnabled true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
@@ -39,4 +39,4 @@ dependencies {
     compile 'com.android.support:multidex:1.0.1'
     compile 'com.android.support:recyclerview-v7:26.0.0-alpha1'
     compile 'com.google.code.gson:gson:2.8.5'
-}
+}   
