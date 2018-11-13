@@ -79,6 +79,11 @@ public class AllAppAdapter extends RecyclerView.Adapter<AllAppAdapter.AppItemMes
         holder.toggleBtn.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+
+                if (isChecked == listAppInfo.get(position).isShowOnUserMode()) {
+                    return;
+                }
+
                 listAppInfo.get(position).setShowOnUserMode(isChecked);
                 Log.e(TAG, "position： " + position + "   isChecked: " + isChecked);
                 managerAppPresenter.managerApp(context, listAppInfo.get(position).getClassName(),

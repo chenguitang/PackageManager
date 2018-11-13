@@ -38,7 +38,8 @@ public class pm {
             newState = PackageManager.COMPONENT_ENABLED_STATE_DEFAULT;
         } else if ("disable".equals(args[2])) {
             newState = PackageManager.COMPONENT_ENABLED_STATE_DISABLED;
-            //newState = 3; //PackageManager.COMPONENT_ENABLED_STATE_DISABLED_USER;
+//            newState = PackageManager.COMPONENT_ENABLED_STATE_ENABLED ;
+//            newState = PackageManager.COMPONENT_ENABLED_STATE_DISABLED_USER;
         } else {
             printUsage();
             System.exit(1);
@@ -78,12 +79,20 @@ public class pm {
         System.out.println("usage : com.minipos.utils.pm pakcageName className enable|disable");
     }
 
+    /**
+     * @param pm       PackageManager
+     * @param cn       组件名称
+     * @param newState 组件新的状态，可以设置三个值
+     * @param flag     不可用状态：COMPONENT_ENABLED_STATE_DISABLED
+     *                 可用状态：COMPONENT_ENABLED_STATE_ENABLED
+     *                 默认状态：COMPONENT_ENABLED_STATE_DEFAULT
+     * @throws Throwable
+     */
     private static void invokeAndroidKK(Object pm, ComponentName cn, int newState, int flag) throws Throwable {
         Method m = null;
 
         m = ClassIPackageManager.getMethod("setComponentEnabledSetting",
                 new Class[]{ComponentName.class, int.class, int.class, int.class});
-
         try {
             m.invoke(pm,
                     new Object[]{cn, newState, flag, (int) 0});

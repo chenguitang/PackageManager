@@ -61,7 +61,7 @@ public class ManagerAppPresenter implements ManagerAppContract.IManagerAppPresen
                     mState = AppStateUtils.getPackageState(context, packageName, className);
                     isVisAble = AppStateUtils.isVisible(mState);
                 }
-                Observable.timer(isUserModel ? 6 : 2, TimeUnit.SECONDS)
+                Observable.timer(isUserModel ? 2 : 2, TimeUnit.SECONDS)
                         .doOnNext(new Consumer<Long>() {
                             @Override
                             public void accept(Long aLong) throws Exception {
